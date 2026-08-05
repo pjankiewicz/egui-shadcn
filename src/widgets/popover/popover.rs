@@ -4,6 +4,12 @@
 #[must_use]
 pub struct Popover;
 
+impl Default for Popover {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Popover {
     pub fn new() -> Self {
         Self

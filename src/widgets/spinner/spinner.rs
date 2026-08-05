@@ -6,6 +6,12 @@ pub struct Spinner {
     pub(crate) size: f32,
 }
 
+impl Default for Spinner {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Spinner {
     pub fn new() -> Self {
         Self { size: 16.0 } // size-4 = 16px

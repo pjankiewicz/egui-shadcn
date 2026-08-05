@@ -9,6 +9,12 @@ pub struct Sheet {
     pub(crate) width: f32,
 }
 
+impl Default for Sheet {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Sheet {
     pub fn new() -> Self {
         Self {

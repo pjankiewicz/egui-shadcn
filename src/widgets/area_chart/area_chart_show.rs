@@ -155,8 +155,8 @@ impl super::area_chart::AreaChart {
                 .collect();
 
             if self.stacked {
-                for i in 0..n {
-                    cumulative[i] += series.values.get(i).copied().unwrap_or(0.0);
+                for (i, total) in cumulative.iter_mut().enumerate().take(n) {
+                    *total += series.values.get(i).copied().unwrap_or(0.0);
                 }
             }
 

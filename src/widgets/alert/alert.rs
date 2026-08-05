@@ -7,6 +7,12 @@ pub struct Alert {
     pub(crate) variant: crate::tokens::alert_variant::AlertVariant,
 }
 
+impl Default for Alert {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Alert {
     pub fn new() -> Self {
         Self {

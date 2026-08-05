@@ -45,7 +45,7 @@ impl egui::Widget for super::button::Button<'_> {
         }
 
         let text_string = self.text.text().to_owned();
-        let is_icon_only = !text_string.is_empty() == false && self.icon.is_some();
+        let is_icon_only = text_string.is_empty() && self.icon.is_some();
         let has_icon = self.icon.is_some();
         let has_text = !text_string.is_empty();
         let has_shortcut = self.shortcut_text.is_some();
@@ -94,15 +94,15 @@ impl egui::Widget for super::button::Button<'_> {
         // Record boundary and rect in group context
         if in_group {
             ui.ctx().data_mut(|d| {
-                if let Some(mut ctx) = d.get_temp::<crate::widgets::button_group::button_group_context::ButtonGroupContext>(group_key) {
-                    if ctx.active {
-                        ctx.boundaries.push(rect.max.x);
-                        ctx.group_rect = Some(match ctx.group_rect {
-                            Some(r) => r.union(rect),
-                            None => rect,
-                        });
-                        d.insert_temp(group_key, ctx);
-                    }
+                if let Some(mut ctx) = d.get_temp::<crate::widgets::button_group::button_group_context::ButtonGroupContext>(group_key)
+                    && ctx.active
+                {
+                    ctx.boundaries.push(rect.max.x);
+                    ctx.group_rect = Some(match ctx.group_rect {
+                        Some(r) => r.union(rect),
+                        None => rect,
+                    });
+                    d.insert_temp(group_key, ctx);
                 }
             });
         }
@@ -140,15 +140,15 @@ impl egui::Widget for super::button::Button<'_> {
             painter.rect_filled(rect, cr, style.bg);
 
             // Border (skip when inside a button group — the group draws borders)
-            if !in_group {
-                if let Some(border_color) = style.border {
-                    painter.rect_stroke(
-                        rect,
-                        cr,
-                        egui::Stroke::new(1.0, border_color),
-                        egui::epaint::StrokeKind::Inside,
-                    );
-                }
+            if !in_group
+                && let Some(border_color) = style.border
+            {
+                painter.rect_stroke(
+                    rect,
+                    cr,
+                    egui::Stroke::new(1.0, border_color),
+                    egui::epaint::StrokeKind::Inside,
+                );
             }
 
             if is_icon_only {

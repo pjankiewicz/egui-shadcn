@@ -12,7 +12,9 @@ impl super::tabs::Tabs {
         let theme = crate::theme::shadcn_theme_ext::ShadcnThemeExt::shadcn_theme(ui.ctx());
         let cr = theme.radius.round() as u8;
 
-        let response = ui
+        
+
+        ui
             .vertical(|ui| {
                 // Tab bar
                 let tab_frame = egui::Frame::NONE
@@ -39,9 +41,7 @@ impl super::tabs::Tabs {
                 // Content area
                 content(ui, *selected);
             })
-            .response;
-
-        response
+            .response
     }
 
     fn render_tab(
@@ -141,7 +141,9 @@ impl super::tabs::IconTabs {
         let theme = crate::theme::shadcn_theme_ext::ShadcnThemeExt::shadcn_theme(ui.ctx());
         let cr = theme.radius.round() as u8;
 
-        let response = ui
+        
+
+        ui
             .vertical(|ui| {
                 let tab_frame = egui::Frame::NONE
                     .fill(theme.muted)
@@ -165,9 +167,7 @@ impl super::tabs::IconTabs {
                 ui.add_space(8.0);
                 content(ui, *selected);
             })
-            .response;
-
-        response
+            .response
     }
 
     fn render_icon_tab(

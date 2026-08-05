@@ -4,6 +4,12 @@
 #[must_use]
 pub struct Calendar;
 
+impl Default for Calendar {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Calendar {
     pub fn new() -> Self {
         Self

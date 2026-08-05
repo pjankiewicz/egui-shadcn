@@ -6,6 +6,12 @@ pub struct DatePicker {
     pub(crate) placeholder: String,
 }
 
+impl Default for DatePicker {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl DatePicker {
     pub fn new() -> Self {
         Self {

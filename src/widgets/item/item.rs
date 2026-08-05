@@ -5,6 +5,12 @@ pub struct Item {
     pub(crate) variant: crate::tokens::item_variant::ItemVariant,
 }
 
+impl Default for Item {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Item {
     pub fn new() -> Self {
         Self {

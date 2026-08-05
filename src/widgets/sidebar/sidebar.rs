@@ -7,6 +7,12 @@ pub struct Sidebar {
     pub(crate) collapsible: bool,
 }
 
+impl Default for Sidebar {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Sidebar {
     pub fn new() -> Self {
         Self {

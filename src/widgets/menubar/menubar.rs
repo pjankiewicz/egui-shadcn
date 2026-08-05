@@ -4,6 +4,12 @@
 #[must_use]
 pub struct Menubar;
 
+impl Default for Menubar {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Menubar {
     pub fn new() -> Self {
         Self

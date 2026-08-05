@@ -51,19 +51,19 @@ impl egui::Widget for super::slider::Slider<'_> {
 
         // Handle drag
         let mut new_val = current_val;
-        if response.dragged() || response.clicked() {
-            if let Some(pos) = response.interact_pointer_pos() {
-                let usable_min = track_rect.min.x + handle_radius;
-                let usable_max = track_rect.max.x - handle_radius;
-                let t = ((pos.x - usable_min) / (usable_max - usable_min)).clamp(0.0, 1.0);
-                new_val = range_start + t as f64 * range_span;
+        if (response.dragged() || response.clicked())
+            && let Some(pos) = response.interact_pointer_pos()
+        {
+            let usable_min = track_rect.min.x + handle_radius;
+            let usable_max = track_rect.max.x - handle_radius;
+            let t = ((pos.x - usable_min) / (usable_max - usable_min)).clamp(0.0, 1.0);
+            new_val = range_start + t as f64 * range_span;
 
-                if let Some(step) = self.step {
-                    new_val = (new_val / step).round() * step;
-                }
-
-                new_val = new_val.clamp(range_start, range_end);
+            if let Some(step) = self.step {
+                new_val = (new_val / step).round() * step;
             }
+
+            new_val = new_val.clamp(range_start, range_end);
         }
 
         // Write back

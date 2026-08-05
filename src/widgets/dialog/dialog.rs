@@ -8,6 +8,12 @@ pub struct Dialog {
     pub(crate) width: f32,
 }
 
+impl Default for Dialog {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Dialog {
     pub fn new() -> Self {
         Self {

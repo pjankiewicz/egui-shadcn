@@ -7,6 +7,12 @@ pub struct PropertyGrid {
     pub(crate) row_gap: f32,
 }
 
+impl Default for PropertyGrid {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PropertyGrid {
     pub fn new() -> Self {
         Self {

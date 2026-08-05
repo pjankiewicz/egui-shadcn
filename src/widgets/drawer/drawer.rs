@@ -7,6 +7,12 @@ pub struct Drawer {
     pub(crate) description: Option<String>,
 }
 
+impl Default for Drawer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Drawer {
     pub fn new() -> Self {
         Self {

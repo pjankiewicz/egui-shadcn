@@ -109,7 +109,7 @@ impl super::calendar::Calendar {
             // Day grid
             let mut day_counter: u32 = 0;
             let total_cells = first_weekday + days_in_month;
-            let rows = (total_cells + 6) / 7;
+            let rows = total_cells.div_ceil(7);
 
             for row in 0..rows {
                 ui.horizontal(|ui| {

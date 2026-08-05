@@ -128,28 +128,21 @@ impl egui::Widget for super::number_input::NumberInput<'_> {
             });
         }
 
-        if response.has_focus() || response.dragged() {
-            ui.painter().rect_stroke(
-                outer_rect,
-                cr,
-                egui::Stroke::new(1.0, theme.ring),
-                egui::epaint::StrokeKind::Inside,
-            );
+        // Only the ring reads as "focused", per `input::input_style`. Hover
+        // gets the plain border so it stays distinguishable from focus.
+        let border = if response.has_focus() || response.dragged() {
+            theme.ring
         } else if outer_hovered {
-            ui.painter().rect_stroke(
-                outer_rect,
-                cr,
-                egui::Stroke::new(1.0, theme.ring),
-                egui::epaint::StrokeKind::Inside,
-            );
+            theme.border
         } else {
-            ui.painter().rect_stroke(
-                outer_rect,
-                cr,
-                egui::Stroke::new(1.0, theme.input),
-                egui::epaint::StrokeKind::Inside,
-            );
-        }
+            theme.input
+        };
+        ui.painter().rect_stroke(
+            outer_rect,
+            cr,
+            egui::Stroke::new(1.0, border),
+            egui::epaint::StrokeKind::Inside,
+        );
 
         response
     }
