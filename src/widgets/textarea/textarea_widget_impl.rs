@@ -49,7 +49,7 @@ impl egui::Widget for super::textarea::Textarea<'_> {
             .max_height(inner_rect.height())
             .show(&mut child_ui, |ui| {
                 let text_edit = egui::TextEdit::multiline(self.text)
-                    .frame(false)
+                    .frame(crate::paint::text_edit_frame::text_edit_frame())
                     .hint_text(&self.placeholder)
                     .text_color(theme.foreground)
                     .desired_width(inner_rect.width())
