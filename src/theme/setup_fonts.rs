@@ -7,7 +7,7 @@
 /// ```no_run
 /// # struct MyApp;
 /// # impl eframe::App for MyApp {
-/// #     fn update(&mut self, _: &egui::Context, _: &mut eframe::Frame) {}
+/// #     fn ui(&mut self, _: &mut egui::Ui, _: &mut eframe::Frame) {}
 /// # }
 /// eframe::run_native("app", Default::default(), Box::new(|cc| {
 ///     egui_shadcn::setup_fonts(&cc.egui_ctx);

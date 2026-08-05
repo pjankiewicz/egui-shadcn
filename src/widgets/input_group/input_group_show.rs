@@ -82,7 +82,7 @@ impl super::input_group::InputGroup {
         );
 
         let te = egui::TextEdit::singleline(text)
-            .frame(false)
+            .frame(crate::paint::text_edit_frame::text_edit_frame())
             .hint_text(placeholder)
             .text_color(theme.foreground)
             .desired_width(input_rect.width());

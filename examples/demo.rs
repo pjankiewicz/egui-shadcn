@@ -33,18 +33,18 @@ impl Default for DemoApp {
 }
 
 impl eframe::App for DemoApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         // Apply theme
         let theme = if self.dark_mode {
             egui_shadcn::theme::shadcn_theme_dark::dark()
         } else {
             egui_shadcn::theme::shadcn_theme_light::light()
         };
-        egui_shadcn::ShadcnThemeExt::set_shadcn_theme(ctx, theme.clone());
+        egui_shadcn::ShadcnThemeExt::set_shadcn_theme(ui.ctx(), theme.clone());
 
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE.fill(theme.background))
-            .show(ctx, |ui| {
+            .show(ui, |ui| {
                 egui::ScrollArea::vertical().show(ui, |ui| {
                     ui.add_space(24.0);
                     ui.horizontal(|ui| {
