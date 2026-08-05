@@ -23,12 +23,36 @@ include = [
 name = "egui_shadcn"
 path = "src/lib.rs"
 
+# Upstream's style, left as-is so the fork stays trivial to rebase. Silenced
+# here rather than fixed in place, so `cargo clippy --workspace` keeps
+# reporting only this project's own code.
+[lints.clippy]
+approx_constant = "allow"
+bool_comparison = "allow"
+collapsible_if = "allow"
+derivable_impls = "allow"
+if_same_then_else = "allow"
+let_and_return = "allow"
+manual_div_ceil = "allow"
+module_inception = "allow"
+needless_borrows_for_generic_args = "allow"
+needless_range_loop = "allow"
+new_without_default = "allow"
+nonminimal_bool = "allow"
+too_many_arguments = "allow"
+
+[lints.rust]
+dead_code = "allow"
+
+# Vendored fork — see VENDORING.md. `egui`/`eframe` follow the workspace so a
+# future egui bump surfaces here as a compile error instead of a silent second
+# egui in the dependency graph. `egui_flex` 0.7 is the first release on 0.35.
 [dependencies]
-egui = "0.33"
-egui_flex = "0.5"
+egui.workspace = true
+egui_flex = "0.7"
 
 [dev-dependencies]
-eframe = "0.33"
+eframe.workspace = true
 
 [[example]]
 name = "demo"
