@@ -47,7 +47,7 @@ impl egui::Widget for super::input::Input<'_> {
         );
 
         let text_edit = egui::TextEdit::singleline(self.text)
-            .frame(false)
+            .frame(crate::paint::text_edit_frame::text_edit_frame())
             .hint_text(&self.placeholder)
             .text_color(style.text_color)
             .desired_width(inner_rect.width());

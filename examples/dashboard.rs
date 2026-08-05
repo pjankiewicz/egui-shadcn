@@ -189,31 +189,31 @@ const STAT_CARDS: &[StatCard] = &[
 // ---------------------------------------------------------------------------
 
 impl eframe::App for DashboardApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         let theme = if self.dark_mode {
             egui_shadcn::theme::shadcn_theme_dark::dark()
         } else {
             egui_shadcn::theme::shadcn_theme_light::light()
         };
-        egui_shadcn::ShadcnThemeExt::set_shadcn_theme(ctx, theme.clone());
+        egui_shadcn::ShadcnThemeExt::set_shadcn_theme(ui.ctx(), theme.clone());
 
         let sidebar_width = if self.sidebar_collapsed { 72.0 } else { 264.0 };
 
-        egui::SidePanel::left("sidebar")
-            .exact_width(sidebar_width)
+        egui::Panel::left("sidebar")
+            .exact_size(sidebar_width)
             .frame(
                 egui::Frame::NONE
                     .fill(theme.card)
                     .inner_margin(egui::Margin::symmetric(12, 12))
                     .stroke(egui::Stroke::new(1.0, theme.border)),
             )
-            .show(ctx, |ui| {
+            .show(ui, |ui| {
                 self.draw_sidebar_content(ui, &theme);
             });
 
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE.fill(theme.background))
-            .show(ctx, |ui| {
+            .show(ui, |ui| {
                 self.draw_header(ui, &theme);
                 egui::ScrollArea::vertical()
                     .auto_shrink([false; 2])
