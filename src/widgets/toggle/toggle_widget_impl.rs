@@ -5,11 +5,14 @@ impl egui::Widget for super::toggle::Toggle<'_> {
         let theme = crate::theme::shadcn_theme_ext::ShadcnThemeExt::shadcn_theme(ui.ctx());
         let (height, h_padding, font_size) = self.size.metrics();
 
-        let text_galley = ui.painter().layout_no_wrap(
-            self.text.text().to_owned(),
-            egui::FontId::proportional(font_size),
-            theme.foreground,
+        // Convert WidgetText into a Galley preserving RichText attributes (bold, italic, etc.)
+        let text_galley = self.text.into_galley(
+            ui,
+            None,
+            font_size,
+            egui::TextStyle::Button,
         );
+
 
         let desired = egui::vec2(text_galley.size().x + h_padding * 2.0, height);
 

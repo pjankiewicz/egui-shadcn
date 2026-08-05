@@ -293,16 +293,20 @@ impl Default for DashboardApp {
 // ---------------------------------------------------------------------------
 
 impl eframe::App for DashboardApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        // Panels take the `Ui` on egui 0.35; the overlay widgets below are
+        // still `Context`-driven, so keep a handle to both.
+        let ctx = ui.ctx().clone();
+
         let theme = if self.dark_mode {
             egui_shadcn::theme::shadcn_theme_dark::dark()
         } else {
             egui_shadcn::theme::shadcn_theme_light::light()
         };
-        egui_shadcn::ShadcnThemeExt::set_shadcn_theme(ctx, theme.clone());
+        egui_shadcn::ShadcnThemeExt::set_shadcn_theme(&ctx, theme.clone());
 
         // Top bar
-        egui::TopBottomPanel::top("top_bar")
+        egui::Panel::top("top_bar")
             .frame(
                 egui::Frame::NONE
                     .fill(theme.card)
@@ -314,7 +318,7 @@ impl eframe::App for DashboardApp {
                     })
                     .stroke(egui::Stroke::new(1.0, theme.border)),
             )
-            .show(ctx, |ui| {
+            .show(ui, |ui| {
                 ui.horizontal(|ui| {
                     egui_shadcn::Typography::h4("egui-shadcn").show(ui);
                     ui.with_layout(
@@ -332,8 +336,8 @@ impl eframe::App for DashboardApp {
             });
 
         // Left sidebar
-        egui::SidePanel::left("sidebar_panel")
-            .default_width(200.0)
+        egui::Panel::left("sidebar_panel")
+            .default_size(200.0)
             .frame(
                 egui::Frame::NONE
                     .fill(theme.card)
@@ -345,7 +349,7 @@ impl eframe::App for DashboardApp {
                     })
                     .stroke(egui::Stroke::new(1.0, theme.border)),
             )
-            .show(ctx, |ui| {
+            .show(ui, |ui| {
                 egui::ScrollArea::vertical().show(ui, |ui| {
                     for (cat_idx, (cat_name, items)) in CATEGORIES.iter().enumerate() {
                         ui.label(
@@ -407,7 +411,7 @@ impl eframe::App for DashboardApp {
         // Content area
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE.fill(theme.background))
-            .show(ctx, |ui| {
+            .show(ui, |ui| {
                 egui::ScrollArea::vertical()
                     .auto_shrink([false; 2])
                     .show(ui, |ui| {
@@ -429,7 +433,7 @@ impl eframe::App for DashboardApp {
             egui_shadcn::Dialog::new()
                 .title("Edit Profile")
                 .description("Make changes to your profile here.")
-                .show(ctx, &mut self.dialog_open, |ui| {
+                .show(&ctx, &mut self.dialog_open, |ui| {
                     ui.label("Dialog content goes here.");
                     if egui_shadcn::Button::new("Save Changes").show(ui).clicked() {
                         close = true;
@@ -446,7 +450,7 @@ impl eframe::App for DashboardApp {
                 "This action cannot be undone. This will permanently delete your account.",
             )
             .destructive()
-            .show(ctx, &mut self.alert_dialog_open);
+            .show(&ctx, &mut self.alert_dialog_open);
         }
 
         if self.sheet_open {
@@ -454,7 +458,7 @@ impl eframe::App for DashboardApp {
                 .title("Sheet Panel")
                 .description("This is a side sheet overlay.")
                 .side(egui_shadcn::SheetSide::Right)
-                .show(ctx, &mut self.sheet_open, |ui| {
+                .show(&ctx, &mut self.sheet_open, |ui| {
                     ui.label("Sheet content here.");
                 });
         }
@@ -463,7 +467,7 @@ impl eframe::App for DashboardApp {
             egui_shadcn::Drawer::new()
                 .title("Drawer")
                 .description("A bottom drawer panel.")
-                .show(ctx, &mut self.drawer_open, |ui| {
+                .show(&ctx, &mut self.drawer_open, |ui| {
                     ui.label("Drawer content here.");
                 });
         }
@@ -478,10 +482,10 @@ impl eframe::App for DashboardApp {
                 ("Settings".to_owned(), "Appearance".to_owned()),
             ])
             .placeholder("Type a command or search...")
-            .show(ctx, &mut self.command_open, &mut self.command_search);
+            .show(&ctx, &mut self.command_open, &mut self.command_search);
         }
 
-        self.toast_state.show(ctx);
+        self.toast_state.show(&ctx);
     }
 }
 

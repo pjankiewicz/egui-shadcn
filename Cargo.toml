@@ -23,12 +23,22 @@ include = [
 name = "egui_shadcn"
 path = "src/lib.rs"
 
+[lints.clippy]
+# The crate is deliberately one public item per file, so every `widgets/foo/`
+# contains a `foo.rs`. Restructuring all 249 files to satisfy this would cost
+# cheap rebases onto upstream for no reader benefit. Everything else clippy
+# reports here is fixed rather than silenced.
+module_inception = "allow"
+
+# Vendored fork — see VENDORING.md. `egui`/`eframe` follow the workspace so a
+# future egui bump surfaces here as a compile error instead of a silent second
+# egui in the dependency graph. `egui_flex` 0.7 is the first release on 0.35.
 [dependencies]
-egui = "0.33"
-egui_flex = "0.5"
+egui.workspace = true
+egui_flex = "0.7"
 
 [dev-dependencies]
-eframe = "0.33"
+eframe.workspace = true
 
 [[example]]
 name = "demo"
@@ -45,3 +55,8 @@ path = "examples/component_dashboard.rs"
 [[example]]
 name = "dashboard"
 path = "examples/dashboard.rs"
+
+[[example]]
+name = "theme_gallery"
+path = "examples/theme_gallery.rs"
+

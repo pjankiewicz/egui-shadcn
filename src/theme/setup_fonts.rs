@@ -7,7 +7,7 @@
 /// ```no_run
 /// # struct MyApp;
 /// # impl eframe::App for MyApp {
-/// #     fn update(&mut self, _: &egui::Context, _: &mut eframe::Frame) {}
+/// #     fn ui(&mut self, _: &mut egui::Ui, _: &mut eframe::Frame) {}
 /// # }
 /// eframe::run_native("app", Default::default(), Box::new(|cc| {
 ///     egui_shadcn::setup_fonts(&cc.egui_ctx);
@@ -38,12 +38,17 @@ pub fn setup_fonts(ctx: &egui::Context) {
         .or_default()
         .insert(0, "Geist-Regular".to_owned());
 
-    // Add bold variant as well (used in strong/heading text fallback)
+    // Add bold variant fallback
     fonts
         .families
         .entry(egui::FontFamily::Proportional)
         .or_default()
         .insert(1, "Geist-Bold".to_owned());
+
+    // Register explicit bold font family for strong/bold text
+    fonts
+        .families
+        .insert(egui::FontFamily::Name("bold".into()), vec!["Geist-Bold".to_owned()]);
 
     ctx.set_fonts(fonts);
 }
